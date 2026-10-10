@@ -1,0 +1,45 @@
+@host = http://localhost:5084
+@productId = 1
+
+### Все товары
+GET {{host}}/api/products
+Accept: application/json
+
+### Создать товар — скопируйте ID из ответа в productId выше
+POST {{host}}/api/products
+Content-Type: application/json
+
+{
+  "name": "Ноутбук",
+  "price": 350000,
+  "category": "Электроника"
+}
+
+### Получить товар
+GET {{host}}/api/products/{{productId}}
+
+### Изменить товар
+PUT {{host}}/api/products/{{productId}}
+Content-Type: application/json
+
+{
+  "name": "Игровой ноутбук",
+  "price": 420000,
+  "category": "Компьютеры"
+}
+
+### Проверка валидации — ожидается HTTP 400
+POST {{host}}/api/products
+Content-Type: application/json
+
+{
+  "name": "",
+  "price": -1,
+  "category": ""
+}
+
+### Удалить товар — ожидается HTTP 200 и result: true
+DELETE {{host}}/api/products/{{productId}}
+
+### После удаления ожидается HTTP 404
+GET {{host}}/api/products/{{productId}}
